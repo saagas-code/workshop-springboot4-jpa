@@ -15,6 +15,10 @@ public class CategoryService {
 	@Autowired
 	private CategoryRepository repository;
 	
+	public Category create(Category obj) {
+		return repository.save(obj);
+	}
+	
 	public List<Category> findAll() {
 		return repository.findAll();
 	}
