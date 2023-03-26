@@ -1,9 +1,12 @@
 package estudo.course.resources.exceptions;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -32,12 +35,18 @@ public class ResourceExceptionHandler {
 	}
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<StandardError> handleCategoryInvalidException(CategoryInvalidException e, HttpServletRequest request) {
+	public ResponseEntity<StandardError> handleInvalidDataException(MethodArgumentNotValidException ex, HttpServletRequest request) {
 		String error = "Invalid data format";
 		HttpStatus status = HttpStatus.BAD_REQUEST;
-		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+		
+		List<String> errors = new ArrayList<>();
+	    for (FieldError errorr : ex.getBindingResult().getFieldErrors()) {
+	        errors.add(errorr.getField() + ": " + errorr.getDefaultMessage());
+	    }
+		
+		
+		StandardError err = new StandardError(Instant.now(), status.value(), error, errors, request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
 		
-		//return ResponseEntity.badRequest().body(e.getMessage());
 	}
 }

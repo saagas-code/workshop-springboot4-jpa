@@ -2,6 +2,7 @@ package estudo.course.resources.exceptions;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -12,7 +13,7 @@ public class StandardError implements Serializable {
 	private Instant timestamp;
 	private Integer status;
 	private String error;
-	private String message;
+	private Object message;
 	private String path;
 	
 	public StandardError() {
@@ -25,6 +26,15 @@ public class StandardError implements Serializable {
 		this.status = status;
 		this.error = error;
 		this.message = message;
+		this.path = path;
+	}
+	
+	public StandardError(Instant timestamp, Integer status, String error, List<String> messages, String path) {
+		super();
+		this.timestamp = timestamp;
+		this.status = status;
+		this.error = error;
+		this.message = messages;
 		this.path = path;
 	}
 
@@ -52,7 +62,7 @@ public class StandardError implements Serializable {
 		this.error = error;
 	}
 
-	public String getMessage() {
+	public Object getMessage() {
 		return message;
 	}
 
