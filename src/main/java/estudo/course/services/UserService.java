@@ -30,7 +30,11 @@ public class UserService {
 	}
 	
 	public User insert(User obj) {
-		return repository.save(obj);
+		try {
+			return repository.save(obj);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityViolationException("Categoria já existente");
+		}
 	}
 	
 	public void delete(Long id) {
