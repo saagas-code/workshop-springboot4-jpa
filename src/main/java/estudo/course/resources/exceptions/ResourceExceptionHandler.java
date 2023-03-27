@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -40,25 +39,14 @@ public class ResourceExceptionHandler {
 		String error = "Invalid data format";
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		
-		List<String> messages = new ArrayList<>();
+		List<String> errors = new ArrayList<>();
 	    for (FieldError errorr : ex.getBindingResult().getFieldErrors()) {
-	    	messages.add(errorr.getField() + ": " + errorr.getDefaultMessage());
+	        errors.add(errorr.getField() + ": " + errorr.getDefaultMessage());
 	    }
 		
-		StandardError err = new StandardError(Instant.now(), status.value(), error, messages, request.getRequestURI());
+		
+		StandardError err = new StandardError(Instant.now(), status.value(), error, errors, request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
 		
 	}
-	
-	@ExceptionHandler(DataIntegrityViolationException.class)
-	public ResponseEntity<StandardError> handleIntegrityException(DataIntegrityViolationException ex, HttpServletRequest request) {
-		String error = "Integrity error";
-		HttpStatus status = HttpStatus.CONFLICT;
-		String message = ex.getMessage();
-		
-		StandardError err = new StandardError(Instant.now(), status.value(), error, message, request.getRequestURI());
-		return ResponseEntity.status(status).body(err);
-		
-	}
-	
 }

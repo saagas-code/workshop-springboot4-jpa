@@ -7,14 +7,12 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "tb_user")
@@ -24,14 +22,8 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@Size(min = 2, max = 20, message = "O nome deve conter mais que 2 ou menos de 10 caracteres")
 	private String name;
-	
-	@Column(name = "email", unique=true)
-	@Size(min = 2, max = 20, message = "O email deve conter mais que 2 ou menos de 10 caracteres")
 	private String email;
-	
 	private String phone;
 	private String password;
 	
