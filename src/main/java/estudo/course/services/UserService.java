@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import estudo.course.entities.User;
 import estudo.course.repositories.UserRepository;
 import estudo.course.services.exceptions.DatabaseException;
+import estudo.course.services.exceptions.IntegrityViolationException;
 import estudo.course.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 
@@ -30,7 +31,11 @@ public class UserService {
 	}
 	
 	public User insert(User obj) {
-		return repository.save(obj);
+		try {
+			return repository.save(obj);
+		} catch (DataIntegrityViolationException e) {
+			throw new IntegrityViolationException("Categoriaa já existenteee");
+		}
 	}
 	
 	public void delete(Long id) {

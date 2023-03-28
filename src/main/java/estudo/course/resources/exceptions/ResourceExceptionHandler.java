@@ -11,6 +11,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import estudo.course.services.exceptions.IntegrityViolationException;
 import estudo.course.services.exceptions.DatabaseException;
 import estudo.course.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -48,5 +49,16 @@ public class ResourceExceptionHandler {
 		StandardError err = new StandardError(Instant.now(), status.value(), error, errors, request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
 		
+	}
+	
+	@ExceptionHandler(IntegrityViolationException.class)
+	public ResponseEntity<StandardError> handleIntegrityException(IntegrityViolationException ex, HttpServletRequest request) {
+		String error = "Integrity error";
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		String message = ex.getMessage();
+
+		StandardError err = new StandardError(Instant.now(), status.value(), error, message, request.getRequestURI());
+		return ResponseEntity.status(status).body(err);
+
 	}
 }
