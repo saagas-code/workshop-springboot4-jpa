@@ -1,6 +1,7 @@
 package estudo.course.resources;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -33,8 +35,15 @@ public class ProductResource {
 	private CategoryService categoryService;
 	
 	@GetMapping
-	public ResponseEntity<List<Product>> findAll() {
-		List<Product> list = service.findAll();
+	public ResponseEntity<List<Product>> findAll(@RequestParam(required = false) String name) {
+		
+		List<Product> list = new ArrayList<Product>();
+		
+		if (name != null) {
+			list = service.findByName(name);
+		} else {
+			list = service.findAll();
+		}
 		
 		return ResponseEntity.ok().body(list);
 	}
@@ -47,7 +56,6 @@ public class ProductResource {
 	
 	@PostMapping()
 	public ResponseEntity<Product> create(@Valid @RequestBody ProductDTO obj) {
-		//obj = service.create(obj);
 		Product product = new Product();
 		product.setName(obj.getName());
 		product.setDescription(obj.getDescription());
