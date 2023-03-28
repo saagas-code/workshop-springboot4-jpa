@@ -1,7 +1,9 @@
 package estudo.course.resources;
 
 import java.net.URI;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import estudo.course.entities.Category;
 import estudo.course.entities.Product;
+import estudo.course.resources.DTO.ProductDTO;
+import estudo.course.services.CategoryService;
 import estudo.course.services.ProductService;
 import jakarta.validation.Valid;
 
@@ -23,6 +28,9 @@ public class ProductResource {
 	
 	@Autowired
 	private ProductService service;
+	
+	@Autowired
+	private CategoryService categoryService;
 	
 	@GetMapping
 	public ResponseEntity<List<Product>> findAll() {
@@ -38,9 +46,26 @@ public class ProductResource {
 	}
 	
 	@PostMapping()
-	public ResponseEntity<Product> findById(@Valid @RequestBody Product obj) {
-		obj = service.create(obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-		return ResponseEntity.created(uri).body(obj);
+	public ResponseEntity<Product> create(@Valid @RequestBody ProductDTO obj) {
+		//obj = service.create(obj);
+		Product product = new Product();
+		product.setName(obj.getName());
+		product.setDescription(obj.getDescription());
+		product.setPrice(obj.getPrice());
+		product.setImgUrl(obj.getImgUrl());
+		
+		Set<Category> categories = new HashSet<>();
+		for (Long categoriaId : obj.getCategoriaIds()) {
+			
+			Category categoryy = categoryService.findById(categoriaId);
+			categories.add(categoryy);
+			
+		}
+		product.setCategories(categories);
+		
+		product = service.create(product);
+		
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(product.getId()).toUri();
+		return ResponseEntity.created(uri).body(product);
 	}
 }
