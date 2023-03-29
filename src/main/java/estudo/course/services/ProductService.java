@@ -11,6 +11,7 @@ import estudo.course.entities.Product;
 import estudo.course.repositories.ProductRepository;
 import estudo.course.services.exceptions.IntegrityViolationException;
 import estudo.course.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ProductService {
@@ -47,6 +48,24 @@ public class ProductService {
 		} catch (DataIntegrityViolationException e) {
 			throw new IntegrityViolationException("Produto já existente");
 		}
+	}
+	
+	public Product update(Long id, Product obj) {
+		try {
+			Product entity = repository.getReferenceById(id);
+			updateData(entity, obj);
+			return repository.save(entity);
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+		}
+	}
+	
+	private void updateData(Product entity, Product obj) {
+		entity.setName(obj.getName());
+		entity.setDescription(obj.getDescription());
+		entity.setPrice(obj.getPrice());
+		entity.setImgUrl(obj.getImgUrl());
+		entity.setCategories(obj.getCategories());
 	}
 	
 	public void delete(Long id) {

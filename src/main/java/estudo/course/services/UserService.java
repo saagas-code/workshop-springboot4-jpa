@@ -34,7 +34,7 @@ public class UserService {
 		try {
 			return repository.save(obj);
 		} catch (DataIntegrityViolationException e) {
-			throw new IntegrityViolationException("Categoriaa já existenteee");
+			throw new IntegrityViolationException("Email já existente");
 		}
 	}
 	
