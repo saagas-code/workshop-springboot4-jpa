@@ -12,5 +12,5 @@ public interface ProductMapper {
 	@Mapping(target = "id", ignore = true)
 	Product toProduct(ProductDTO productDTO);
 	
-	ProductDTO toProduct(Product product);
+	ProductDTO toProductDTO(Product product);
 }

@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,8 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping(value = "/products")
 public class ProductResource {
+	
+	ModelMapper modelMapper = new ModelMapper();
 	
 	@Autowired
 	private ProductService service;
@@ -56,18 +59,12 @@ public class ProductResource {
 	
 	@PostMapping()
 	public ResponseEntity<Product> create(@Valid @RequestBody ProductDTO obj) {
-		Product product = new Product();
-		product.setName(obj.getName());
-		product.setDescription(obj.getDescription());
-		product.setPrice(obj.getPrice());
-		product.setImgUrl(obj.getImgUrl());
+		Product product = modelMapper.map(obj, Product.class);
 		
 		Set<Category> categories = new HashSet<>();
-		for (Long categoriaId : obj.getCategoriaIds()) {
-			
+		for (Long categoriaId : obj.getCategoriaIds()) {	
 			Category categoryy = categoryService.findById(categoriaId);
-			categories.add(categoryy);
-			
+			categories.add(categoryy);	
 		}
 		product.setCategories(categories);
 		
