@@ -33,5 +33,8 @@ public class CategoryService {
 		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
+	public void delete(Long id) {
+		repository.deleteById(id);
+	}
 	
 }

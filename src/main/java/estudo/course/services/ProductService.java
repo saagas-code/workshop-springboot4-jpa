@@ -5,12 +5,14 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import estudo.course.entities.Product;
 import estudo.course.repositories.ProductRepository;
 import estudo.course.services.exceptions.IntegrityViolationException;
 import estudo.course.services.exceptions.ResourceNotFoundException;
+import estudo.course.specifications.ProductSpec;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
@@ -34,6 +36,21 @@ public class ProductService {
         } else {
             return repository.findByNameContainingIgnoreCaseAndNameContainingIgnoreCase(palavras[0], palavras[1]);
         }
+
+	}
+	
+	public List<Product> findByNameAndCategory(String name, Long categoryId) {
+
+		Specification<Product> spec = Specification.where(null);
+
+        if (name != null) {
+        	spec = spec.and(ProductSpec.porNome(name));
+        }
+        if (categoryId != null) {
+        	spec = spec.and(ProductSpec.porCategoria(categoryId));
+        }
+        
+        return repository.findAll(spec);
 
 	}
 

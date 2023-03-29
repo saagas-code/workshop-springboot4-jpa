@@ -40,15 +40,10 @@ public class ProductResource {
 	private CategoryService categoryService;
 	
 	@GetMapping
-	public ResponseEntity<List<Product>> findAll(@RequestParam(required = false) String name) {
+	public ResponseEntity<List<Product>> findAll(@RequestParam(required = false) String name, @RequestParam(required = false) Long categoryId) {
 		
 		List<Product> list = new ArrayList<Product>();
-		
-		if (name != null) {
-			list = service.findByName(name);
-		} else {
-			list = service.findAll();
-		}
+		list = service.findByNameAndCategory(name, categoryId);
 		
 		return ResponseEntity.ok().body(list);
 	}
