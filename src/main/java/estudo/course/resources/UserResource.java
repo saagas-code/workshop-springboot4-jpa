@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,14 +50,9 @@ public class UserResource {
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 		User user = service.findById(id);
 		
-		if (user == null) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		}
-		
 		service.delete(user.getId());
 		return ResponseEntity.noContent().build();
-		// service.delete(id);
-		// return ResponseEntity.noContent().build();
+
 	}
 	
 	@PutMapping(value = "/{id}")

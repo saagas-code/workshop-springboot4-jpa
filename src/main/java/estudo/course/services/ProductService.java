@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import estudo.course.entities.Product;
 import estudo.course.repositories.ProductRepository;
 import estudo.course.services.exceptions.IntegrityViolationException;
+import estudo.course.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class ProductService {
@@ -37,7 +38,7 @@ public class ProductService {
 
 	public Product findById(Long id) {
 		Optional<Product> obj = repository.findById(id);
-		return obj.get();
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
 	public Product create(Product obj) {
@@ -46,6 +47,10 @@ public class ProductService {
 		} catch (DataIntegrityViolationException e) {
 			throw new IntegrityViolationException("Produto já existente");
 		}
+	}
+	
+	public void delete(Long id) {
+		repository.deleteById(id);
 	}
 	
 	
