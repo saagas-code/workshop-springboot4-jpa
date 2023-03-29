@@ -25,8 +25,7 @@ public class ProductService {
 	}
 	
 	public List<Product> findByName(String name) {
-		//return repository.findAll();
-		
+
 		String[] palavras = name.split(" ");
         if (palavras.length == 1) {
             return repository.findByNameContainingIgnoreCase(palavras[0]);
