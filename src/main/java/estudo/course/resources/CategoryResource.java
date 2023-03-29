@@ -1,5 +1,6 @@
 package estudo.course.resources;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import estudo.course.entities.Category;
@@ -29,8 +31,17 @@ public class CategoryResource {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<Category>> findAll() {
-		List<Category> list = service.findAll();
+	public ResponseEntity<List<Category>> findAll(@RequestParam(required = false) String name) {
+		
+		List<Category> list = new ArrayList<Category>();
+		
+		if (name != null) {
+			list = service.findByEmail(name);
+		} else {
+			list = service.findAll();
+		}
+		
+		//List<Category> list = service.findAll();
 		
 		return ResponseEntity.ok().body(list);
 	}
