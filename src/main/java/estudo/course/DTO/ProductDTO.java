@@ -1,4 +1,4 @@
-package estudo.course.resources.DTO;
+package estudo.course.DTO;
 
 import java.util.List;
 

@@ -7,6 +7,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import estudo.course.DTO.OrderDTO;
+import estudo.course.DTO.OrderItemDTO;
 import estudo.course.entities.Order;
 import estudo.course.entities.OrderItem;
 import estudo.course.entities.Payment;
@@ -16,8 +18,6 @@ import estudo.course.entities.enums.OrderStatus;
 import estudo.course.repositories.OrderItemRepository;
 import estudo.course.repositories.OrderRepository;
 import estudo.course.repositories.PaymentRepository;
-import estudo.course.resources.DTO.OrderDTO;
-import estudo.course.resources.DTO.OrderItemDTO;
 import estudo.course.services.exceptions.ResourceNotFoundException;
 
 @Service

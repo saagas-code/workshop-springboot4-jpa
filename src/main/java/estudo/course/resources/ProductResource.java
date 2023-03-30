@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import estudo.course.DTO.ProductDTO;
 import estudo.course.entities.Category;
 import estudo.course.entities.Product;
-import estudo.course.resources.DTO.ProductDTO;
 import estudo.course.services.CategoryService;
 import estudo.course.services.ProductService;
 import jakarta.validation.Valid;

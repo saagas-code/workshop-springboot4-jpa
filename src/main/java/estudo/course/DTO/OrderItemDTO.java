@@ -1,4 +1,4 @@
-package estudo.course.resources.DTO;
+package estudo.course.DTO;
 
 public class OrderItemDTO {
 	private Long productId;

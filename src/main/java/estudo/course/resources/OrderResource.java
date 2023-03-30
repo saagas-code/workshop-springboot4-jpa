@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import estudo.course.DTO.OrderDTO;
 import estudo.course.entities.Order;
-import estudo.course.resources.DTO.OrderDTO;
 import estudo.course.services.OrderService;
 
 @RestController
