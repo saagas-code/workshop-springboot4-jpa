@@ -42,9 +42,12 @@ public class ProductResource {
 	@GetMapping
 	public ResponseEntity<List<Product>> findAll(@RequestParam(required = false) String name, @RequestParam(required = false) Long categoryId) {
 		
-		List<Product> list = new ArrayList<Product>();
-		list = service.findByNameAndCategory(name, categoryId);
+		//List<Product> list = new ArrayList<Product>();
+		///list = service.findByNameAndCategory(name, categoryId);
+		//
+		//return ResponseEntity.ok().body(list);
 		
+		List<Product> list = service.findByNameAndCategory(name, categoryId);
 		return ResponseEntity.ok().body(list);
 	}
 	
