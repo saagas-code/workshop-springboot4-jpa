@@ -10,6 +10,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -29,15 +31,20 @@ public class Payment implements Serializable {
 	@MapsId
 	private Order order;
 	
+	@ManyToOne
+	@JoinColumn(name = "client_id")
+	private User client;
+	
 	public Payment() {
 		
 	}
 
-	public Payment(Long id, Instant moment, Order order) {
+	public Payment(Long id, Instant moment, Order order, User client) {
 		super();
 		this.id = id;
 		this.moment = moment;
 		this.order = order;
+		this.client = client;
 	}
 
 	public Long getId() {
@@ -62,6 +69,15 @@ public class Payment implements Serializable {
 
 	public void setOrder(Order order) {
 		this.order = order;
+	}
+	
+	
+	public User getClient() {
+		return client;
+	}
+
+	public void setClient(User client) {
+		this.client = client;
 	}
 
 	@Override
