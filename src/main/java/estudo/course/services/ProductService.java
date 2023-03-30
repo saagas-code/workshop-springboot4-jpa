@@ -56,7 +56,7 @@ public class ProductService {
 
 	public Product findById(Long id) {
 		Optional<Product> obj = repository.findById(id);
-		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
+		return obj.orElseThrow(() -> new ResourceNotFoundException("Product", id));
 	}
 	
 	public Product create(Product obj) {
@@ -73,7 +73,7 @@ public class ProductService {
 			updateData(entity, obj);
 			return repository.save(entity);
 		} catch (EntityNotFoundException e) {
-			throw new ResourceNotFoundException(id);
+			throw new ResourceNotFoundException("Product", id);
 		}
 	}
 	

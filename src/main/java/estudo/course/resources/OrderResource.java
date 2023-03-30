@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,5 +40,13 @@ public class OrderResource {
 	public ResponseEntity<Order> create(@RequestBody OrderDTO orderDTO) {
 		Order order = service.create(orderDTO);
 		return ResponseEntity.ok().body(order);
+	}
+	
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Order> delete(@PathVariable Long id) {
+		Order order = service.findById(id);
+		service.deleteById(order.getId());
+		
+		return ResponseEntity.noContent().build();
 	}
 }

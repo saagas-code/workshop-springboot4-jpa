@@ -16,7 +16,6 @@ import estudo.course.entities.enums.OrderStatus;
 import estudo.course.repositories.OrderItemRepository;
 import estudo.course.repositories.OrderRepository;
 import estudo.course.repositories.PaymentRepository;
-import estudo.course.repositories.ProductRepository;
 import estudo.course.resources.DTO.OrderDTO;
 import estudo.course.resources.DTO.OrderItemDTO;
 import estudo.course.services.exceptions.ResourceNotFoundException;
@@ -37,7 +36,7 @@ public class OrderService {
 	private UserService userRepository;
 	
 	@Autowired
-	private ProductRepository productRepository;
+	private ProductService productService;
 	
 	public List<Order> findAll() {
 		return orderRepository.findAll();
@@ -45,7 +44,7 @@ public class OrderService {
 
 	public Order findById(Long id) {
 		Optional<Order> obj = orderRepository.findById(id);
-		return obj.get();
+		return obj.orElseThrow(() -> new ResourceNotFoundException("Order", id));
 	}
 	
 	public Order create(OrderDTO orderDTO) {
@@ -57,8 +56,7 @@ public class OrderService {
 		order.setOrderStatus(OrderStatus.WAITING_PAYMENT);
 		
 		for (OrderItemDTO itemDTO : orderDTO.getItems()) {
-			Product product = productRepository.findById(itemDTO.getProductId())
-				.orElseThrow(() -> new ResourceNotFoundException(itemDTO.getProductId()));
+			Product product = productService.findById(itemDTO.getProductId());
 			
 			OrderItem item = new OrderItem();
 			item.setOrder(order);
@@ -83,5 +81,12 @@ public class OrderService {
 		
 		
 		return order;
+	}
+	
+	public void deleteById(Long id) {
+		Order order = this.findById(id);
+		
+		orderRepository.deleteById(order.getId());
+
 	}
 }

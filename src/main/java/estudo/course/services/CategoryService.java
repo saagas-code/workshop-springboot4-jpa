@@ -30,7 +30,7 @@ public class CategoryService {
 
 	public Category findById(Long id) {
 		Optional<Category> obj = repository.findById(id);
-		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
+		return obj.orElseThrow(() -> new ResourceNotFoundException("Category", id));
 	}
 	
 	public void delete(Long id) {
