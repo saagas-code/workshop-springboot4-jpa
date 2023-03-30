@@ -1,4 +1,4 @@
-package estudo.course.resources;
+package estudo.course.controllers;
 
 import java.util.List;
 
