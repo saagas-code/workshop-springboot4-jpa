@@ -15,48 +15,49 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import estudo.course.DTO.UserDTO;
 import estudo.course.entities.User;
 import estudo.course.services.UserService;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/users")
-public class UserResource {
+public class UserController {
 	
 	@Autowired
-	private UserService service;
+	private UserService userService;
 	
 	@GetMapping
 	public ResponseEntity<List<User>> findAll() {
-		List<User> list = service.findAll();
+		List<User> list = userService.findAll();
 		
 		return ResponseEntity.ok().body(list);
 	}
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<User> findById(@PathVariable Long id) {
-		User obj = service.findById(id);
+		User obj = userService.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 	
 	@PostMapping
-	public ResponseEntity<User> insert(@Valid @RequestBody User obj) {
-		obj = service.insert(obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-		return ResponseEntity.created(uri).body(obj);
+	public ResponseEntity<User> create(@Valid @RequestBody UserDTO obj) {
+		User user = userService.insert(obj);
+		
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
+		return ResponseEntity.created(uri).body(user);
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User obj) {
-		obj = service.update(id,  obj);
-		return ResponseEntity.ok().body(obj);
+	public ResponseEntity<User> update(@PathVariable Long id, @RequestBody UserDTO obj) {
+		User user = userService.update(id,  obj);
+		return ResponseEntity.ok().body(user);
 	}
 	
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id) {
-		User user = service.findById(id);
-		
-		service.delete(user.getId());
+
+		userService.delete(id);
 		return ResponseEntity.noContent().build();
 
 	}
