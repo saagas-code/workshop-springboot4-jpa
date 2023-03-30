@@ -13,41 +13,40 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import estudo.course.DTO.CategoryDTO;
 import estudo.course.entities.Category;
 import estudo.course.services.CategoryService;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/categories")
-public class CategoryResource {
+public class CategoryController {
 	
 	@Autowired
-	private CategoryService service;
-	
-	@PostMapping
-	public ResponseEntity<Category> create(@Valid @RequestBody Category obj) {	
-		obj = service.create(obj);
-		return ResponseEntity.ok().body(obj);
-	}
+	private CategoryService categoryService;
 	
 	@GetMapping
 	public ResponseEntity<List<Category>> findAll(@RequestParam(required = false) String name) {
 					
-		List<Category> list = service.findAll();
+		List<Category> list = categoryService.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Category> findById(@PathVariable Long id) {
-		Category obj = service.findById(id);
+		Category obj = categoryService.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 	
+	@PostMapping
+	public ResponseEntity<Category> create(@Valid @RequestBody CategoryDTO obj) {	
+		Category category = categoryService.create(obj);
+		return ResponseEntity.ok().body(category);
+	}
+	
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<?> delete(@PathVariable Long id) {
-		Category category = service.findById(id);
-		
-		service.delete(category.getId());
+	public ResponseEntity<?> delete(@PathVariable Long id) {	
+		categoryService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 	
