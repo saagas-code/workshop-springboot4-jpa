@@ -1,4 +1,4 @@
-package estudo.course.resources.exceptions;
+package estudo.course.controllers.exceptions;
 
 import java.time.Instant;
 import java.util.ArrayList;
