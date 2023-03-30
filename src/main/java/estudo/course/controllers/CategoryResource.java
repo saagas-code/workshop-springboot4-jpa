@@ -1,6 +1,5 @@
 package estudo.course.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,17 +32,8 @@ public class CategoryResource {
 	
 	@GetMapping
 	public ResponseEntity<List<Category>> findAll(@RequestParam(required = false) String name) {
-		
-		List<Category> list = new ArrayList<Category>();
-		
-		if (name != null) {
-			list = service.findByEmail(name);
-		} else {
-			list = service.findAll();
-		}
-		
-		//List<Category> list = service.findAll();
-		
+					
+		List<Category> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 	

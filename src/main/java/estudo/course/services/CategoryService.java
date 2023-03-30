@@ -24,10 +24,6 @@ public class CategoryService {
 		return repository.findAll();
 	}
 	
-	public List<Category> findByEmail(String name) {
-		return repository.findByNameContainingIgnoreCase(name);
-	}
-
 	public Category findById(Long id) {
 		Optional<Category> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ResourceNotFoundException("Category", id));
