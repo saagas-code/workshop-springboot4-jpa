@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,17 +20,22 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_user")
+@JsonPropertyOrder({"id", "name", "email", "phone", "password"})
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@JsonProperty("first_name")
 	private String name;
 	
 	@Column(name = "email", unique=true)
 	private String email;
 	private String phone;
+	
+	@JsonIgnore
 	private String password;
 	
 	@JsonIgnore
