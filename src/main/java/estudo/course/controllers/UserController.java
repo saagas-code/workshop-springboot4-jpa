@@ -18,6 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import estudo.course.DTO.UserDTO;
 import estudo.course.entities.User;
 import estudo.course.services.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
@@ -28,6 +29,7 @@ public class UserController {
 	private UserService userService;
 	
 	@GetMapping
+	@Operation(summary = "Get all Users", description = "Return a list of users")
 	public ResponseEntity<List<User>> findAll() {
 		List<User> list = userService.findAll();
 		
@@ -35,12 +37,14 @@ public class UserController {
 	}
 	
 	@GetMapping(value = "/{id}")
+	@Operation(summary = "Get one user by ID")
 	public ResponseEntity<User> findById(@PathVariable Long id) {
 		User obj = userService.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 	
 	@PostMapping
+	@Operation(summary = "Create one User")
 	public ResponseEntity<User> create(@Valid @RequestBody UserDTO obj) {
 		User user = userService.insert(obj);
 		
@@ -49,12 +53,14 @@ public class UserController {
 	}
 	
 	@PutMapping(value = "/{id}")
+	@Operation(summary = "Update one User")
 	public ResponseEntity<User> update(@PathVariable Long id, @RequestBody UserDTO obj) {
 		User user = userService.update(id,  obj);
 		return ResponseEntity.ok().body(user);
 	}
 	
 	@DeleteMapping(value = "/{id}")
+	@Operation(summary = "Delete one user by ID")
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 
 		userService.delete(id);
