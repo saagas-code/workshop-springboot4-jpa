@@ -2,11 +2,14 @@ package estudo.course.DTO;
 
 import java.util.List;
 
+import jakarta.validation.constraints.NotEmpty;
+
 public class OrderDTO {
 	
+	@NotEmpty(message = "Campo clientId é obrigatório.")
 	private Long clientId;
 	
-	
+	@NotEmpty(message = "Campo items é obrigatório.")
 	private List<OrderItemDTO> items;
 	
 	public OrderDTO(Long clientId, List<OrderItemDTO> items) {

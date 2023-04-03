@@ -1,7 +1,12 @@
 package estudo.course.DTO;
 
+import jakarta.validation.constraints.NotEmpty;
+
 public class OrderItemDTO {
+	@NotEmpty(message = "Campo productId é obrigatório.")
 	private Long productId;
+	
+	@NotEmpty(message = "Campo quantity é obrigatório.")
 	private Integer quantity;
 	
 	public OrderItemDTO(Long productId, Integer quantity) {
