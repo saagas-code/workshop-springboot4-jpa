@@ -3,21 +3,25 @@ package estudo.course.DTO;
 import java.util.List;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public class ProductDTO {
 	
 	@NotEmpty(message = "Campo name é obrigatório.")
+	@Size(min = 2, max = 10, message = "O nome deve conter mais que 2 ou menos de 10 caracteres")
 	private String name;
 	
 	@NotEmpty(message = "Campo description é obrigatório.")
 	private String description;
 	
-	@NotEmpty(message = "Campo price é obrigatório.")
+	@NotNull(message = "Valor price não pode ser nulo.")
 	private Double price;
 	
 	private String imgUrl;
 	
-	@NotEmpty(message = "Campo categoriaIds é obrigatório.")
+	@Size(min = 1,message = "O campo categoriaIds não pode ser vazio")
+	@NotNull(message = "Campo categoriaIds não pode ser nulo")
 	private List<Long> categoriaIds;
 	
 	public ProductDTO() {
