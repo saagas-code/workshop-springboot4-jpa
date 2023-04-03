@@ -1,8 +1,11 @@
 package estudo.course.DTO;
 
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
 public class CategoryDTO {
+	
+	@NotEmpty(message = "Campo name é obrigatório.")
 	private String name;
 	
 	public CategoryDTO() {

@@ -16,6 +16,7 @@ import estudo.course.DTO.OrderDTO;
 import estudo.course.entities.Order;
 import estudo.course.services.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/orders")
@@ -41,7 +42,7 @@ public class OrderController {
 	
 	@PostMapping()
 	@Operation(summary = "Create one Order")
-	public ResponseEntity<Order> create(@RequestBody OrderDTO orderDTO) {
+	public ResponseEntity<Order> create(@Valid @RequestBody OrderDTO orderDTO) {
 		Order order = service.create(orderDTO);
 		return ResponseEntity.ok().body(order);
 	}

@@ -22,37 +22,34 @@ import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "tb_user")
-@JsonPropertyOrder({"id", "name", "email", "phone", "password"})
+@JsonPropertyOrder({ "id", "name", "email", "phone", "password" })
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@JsonProperty("first_name")
-	@NotEmpty(message = "Campo name é obrigatório.")
 	private String name;
-	
-	@Column(name = "email", unique=true)
-	@NotEmpty(message = "Campo email é obrigatório.")
+
+	@Column(name = "email", unique = true)
 	@Email(message = "Email inválido")
 	private String email;
-	
+
 	@NotEmpty(message = "Campo phone é obrigatório.")
 	private String phone;
-	
+
 	@JsonIgnore
-	@NotEmpty(message = "Campo password é obrigatório.")
 	private String password;
-	
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "client")
 	private List<Order> orders = new ArrayList<>();
-	
+
 	@OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
 	private List<Payment> payments = new ArrayList<>();
-	
+
 	public User() {
 	}
 
@@ -104,12 +101,10 @@ public class User implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	public List<Order> getOrders() {
 		return orders;
 	}
-	
-	
 
 	@Override
 	public int hashCode() {
@@ -128,7 +123,4 @@ public class User implements Serializable {
 		return Objects.equals(id, other.id);
 	}
 
-	
-	
-	
 }

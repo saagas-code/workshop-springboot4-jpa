@@ -1,10 +1,16 @@
 package estudo.course.DTO;
 
+import jakarta.validation.constraints.NotEmpty;
+
 public class UserDTO {
 	
+	@NotEmpty(message = "Campo name é obrigatório.")
 	private String name;
+	@NotEmpty(message = "Campo email é obrigatório.")
 	private String email;
+	@NotEmpty(message = "Campo phone é obrigatório.")
 	private String phone;
+	@NotEmpty(message = "Campo password é obrigatório.")
 	private String password;
 	
 	public UserDTO() {
