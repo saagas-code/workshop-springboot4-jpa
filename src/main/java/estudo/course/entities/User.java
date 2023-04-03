@@ -17,6 +17,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "tb_user")
@@ -29,20 +31,25 @@ public class User implements Serializable {
 	private Long id;
 	
 	@JsonProperty("first_name")
+	@NotEmpty(message = "Campo name é obrigatório.")
 	private String name;
 	
 	@Column(name = "email", unique=true)
+	@NotEmpty(message = "Campo email é obrigatório.")
+	@Email(message = "Email inválido")
 	private String email;
+	
+	@NotEmpty(message = "Campo phone é obrigatório.")
 	private String phone;
 	
 	@JsonIgnore
+	@NotEmpty(message = "Campo password é obrigatório.")
 	private String password;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "client")
 	private List<Order> orders = new ArrayList<>();
 	
-	//@JsonIgnore
 	@OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
 	private List<Payment> payments = new ArrayList<>();
 	
