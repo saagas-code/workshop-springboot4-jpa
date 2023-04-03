@@ -2,12 +2,22 @@ package estudo.course.DTO;
 
 import java.util.List;
 
+import jakarta.validation.constraints.NotEmpty;
+
 public class ProductDTO {
+	
+	@NotEmpty(message = "Campo name é obrigatório.")
 	private String name;
+	
+	@NotEmpty(message = "Campo description é obrigatório.")
 	private String description;
+	
+	@NotEmpty(message = "Campo price é obrigatório.")
 	private Double price;
+	
 	private String imgUrl;
 	
+	@NotEmpty(message = "Campo categoriaIds é obrigatório.")
 	private List<Long> categoriaIds;
 	
 	public ProductDTO() {
