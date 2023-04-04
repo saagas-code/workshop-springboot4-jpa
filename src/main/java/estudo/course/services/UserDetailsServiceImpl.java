@@ -1,5 +1,6 @@
 package estudo.course.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -8,28 +9,30 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import estudo.course.repositories.UserRepository;
+
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 	
-	//@Autowired
-	//private UserRepository repository;
+	@Autowired
+	private UserRepository repository;
 		
 	public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 	
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username) {
 
-		//estudo.course.entities.User user = repository.findByEmail(username)
-		//	.orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+		estudo.course.entities.User user = repository.findByEmail(username)
+			.orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 		
 		//String[] roles = user.isAdmin() ? new String[] {"ADMIN", "USER"} : new String[] {"USER"};
 		
 		return User
 				.builder()
-				.username("admin")
-				.password(this.passwordEncoder().encode("admin"))
+				.username(user.getEmail())
+				.password(this.passwordEncoder().encode(user.getPassword()))
 				.roles("USER")
 				.build();
 				
