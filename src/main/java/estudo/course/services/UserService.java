@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import estudo.course.DTO.UserDTO;
@@ -25,6 +26,8 @@ public class UserService {
 	@Autowired
 	private UserRepository repository;
 	
+	private PasswordEncoder passwordEncoder;
+	
 	public List<User> findAll() {
 		return repository.findAll();
 	}
@@ -35,6 +38,9 @@ public class UserService {
 	}
 	
 	public User insert(UserDTO obj) {
+		
+		String passCrypted = passwordEncoder.encode(obj.getPassword());
+		obj.setPassword(passCrypted);
 		
 		User user = modelMapper.map(obj, User.class);
 		

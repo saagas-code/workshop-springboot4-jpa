@@ -43,7 +43,7 @@ public class UserController {
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	@PostMapping
+	@PostMapping()
 	@Operation(summary = "Create one User")
 	public ResponseEntity<User> create(@Valid @RequestBody UserDTO obj) {
 		User user = userService.insert(obj);
