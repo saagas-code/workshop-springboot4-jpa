@@ -1,9 +1,13 @@
 package estudo.course.entities;
 
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -23,7 +27,7 @@ import jakarta.validation.constraints.NotEmpty;
 @Entity
 @Table(name = "tb_user")
 @JsonPropertyOrder({ "id", "name", "email", "phone", "password" })
-public class User implements Serializable {
+public class User implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -49,6 +53,9 @@ public class User implements Serializable {
 
 	@OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
 	private List<Payment> payments = new ArrayList<>();
+	
+	@Column(name = "role", columnDefinition = "VARCHAR(255) DEFAULT 'USER'")
+	private String role;
 
 	public User() {
 	}
@@ -105,6 +112,14 @@ public class User implements Serializable {
 	public List<Order> getOrders() {
 		return orders;
 	}
+	
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
 
 	@Override
 	public int hashCode() {
@@ -121,6 +136,40 @@ public class User implements Serializable {
 			return false;
 		User other = (User) obj;
 		return Objects.equals(id, other.id);
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return List.of(new SimpleGrantedAuthority(role));
+	}
+
+	@Override
+	public String getUsername() {
+		return email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
 }

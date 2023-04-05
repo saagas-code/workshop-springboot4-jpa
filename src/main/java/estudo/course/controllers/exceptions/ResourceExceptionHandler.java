@@ -6,13 +6,15 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import estudo.course.services.exceptions.IntegrityViolationException;
 import estudo.course.services.exceptions.DatabaseException;
+import estudo.course.services.exceptions.IntegrityViolationException;
+import estudo.course.services.exceptions.PasswordInvalidException;
 import estudo.course.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -61,4 +63,31 @@ public class ResourceExceptionHandler {
 		return ResponseEntity.status(status).body(err);
 
 	}
+	
+	@ExceptionHandler(PasswordInvalidException.class)
+	public ResponseEntity<StandardError> handleIntegrityException(PasswordInvalidException ex, HttpServletRequest request) {
+		String error = "Integrity error";
+		HttpStatus status = HttpStatus.UNAUTHORIZED;
+		String message = ex.getMessage();
+
+		StandardError err = new StandardError(Instant.now(), status.value(), error, message, request.getRequestURI());
+		return ResponseEntity.status(status).body(err);
+
+	}
+	
+	@ExceptionHandler(UsernameNotFoundException.class)
+	public ResponseEntity<StandardError> handleIntegrityException(UsernameNotFoundException ex, HttpServletRequest request) {
+		String error = "Integrity error";
+		HttpStatus status = HttpStatus.UNAUTHORIZED;
+		String message = ex.getMessage();
+
+		StandardError err = new StandardError(Instant.now(), status.value(), error, message, request.getRequestURI());
+		return ResponseEntity.status(status).body(err);
+
+	}
+	
+
+	
+	
+	
 }
