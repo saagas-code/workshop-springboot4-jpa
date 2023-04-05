@@ -17,6 +17,7 @@ import estudo.course.DTO.CategoryDTO;
 import estudo.course.entities.Category;
 import estudo.course.services.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 
 @RestController
@@ -42,6 +43,7 @@ public class CategoryController {
 	}
 	
 	@PostMapping
+	@RolesAllowed("ROLE_ADMIN")
 	@Operation(summary = "Create one Category")
 	public ResponseEntity<Category> create(@Valid @RequestBody CategoryDTO obj) {	
 		Category category = categoryService.create(obj);
@@ -49,6 +51,7 @@ public class CategoryController {
 	}
 	
 	@DeleteMapping(value = "/{id}")
+	@RolesAllowed("ROLE_ADMIN")
 	@Operation(summary = "Delete one Category")
 	public ResponseEntity<?> delete(@PathVariable Long id) {	
 		categoryService.delete(id);
