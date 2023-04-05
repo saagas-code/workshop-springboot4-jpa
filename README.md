@@ -60,7 +60,7 @@ spring.datasource.username=postgres #usuario
 spring.datasource.password=8819 #senha
 ```
 
-<h1 align="center">Rotas (em Desenvolvimento)</h1>
+<h1 align="center">Rotas</h1>
 
 ### Autenticacão (As rotas são protegidas por token JWT)
 | Method | Url        | Descricão                      | Retorno            | Body |
