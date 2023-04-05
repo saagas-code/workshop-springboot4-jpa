@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import estudo.course.services.exceptions.DatabaseException;
 import estudo.course.services.exceptions.IntegrityViolationException;
+import estudo.course.services.exceptions.JwtTokenExpiredException;
 import estudo.course.services.exceptions.PasswordInvalidException;
 import estudo.course.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -79,6 +80,17 @@ public class ResourceExceptionHandler {
 	public ResponseEntity<StandardError> handleIntegrityException(UsernameNotFoundException ex, HttpServletRequest request) {
 		String error = "Integrity error";
 		HttpStatus status = HttpStatus.UNAUTHORIZED;
+		String message = ex.getMessage();
+
+		StandardError err = new StandardError(Instant.now(), status.value(), error, message, request.getRequestURI());
+		return ResponseEntity.status(status).body(err);
+
+	}
+	
+	@ExceptionHandler(JwtTokenExpiredException.class)
+	public ResponseEntity<StandardError> handleTokenExpiredException(JwtTokenExpiredException ex, HttpServletRequest request) {
+		String error = "Token Invalid";
+		HttpStatus status = HttpStatus.FORBIDDEN;
 		String message = ex.getMessage();
 
 		StandardError err = new StandardError(Instant.now(), status.value(), error, message, request.getRequestURI());

@@ -24,6 +24,7 @@ import estudo.course.entities.User;
 import estudo.course.security.JwtService;
 import estudo.course.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 
 @RestController
@@ -41,7 +42,7 @@ public class UserController {
 	
 	@GetMapping
 	@Operation(summary = "Get all Users", description = "Return a list of users")
-	//@RolesAllowed("ADMIN")
+	@RolesAllowed("ROLE_ADMIN")
 	public ResponseEntity<List<User>> findAll() {
 		List<User> list = userService.findAll();
 		

@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 
 import estudo.course.entities.User;
+import estudo.course.services.exceptions.JwtTokenExpiredException;
 
 @Service
 public class JwtService {
@@ -25,7 +27,7 @@ public class JwtService {
 	
 	public String getToken(User user) {
 		long expString = Long.valueOf(expiration);
-		LocalDateTime dateHourExpiration = LocalDateTime.now().plusHours(expString);
+		LocalDateTime dateHourExpiration = LocalDateTime.now().plusSeconds(expString);
 		Instant instant = dateHourExpiration.atZone(ZoneId.systemDefault()).toInstant();
 		Date data = Date.from(instant);
 		
@@ -38,9 +40,13 @@ public class JwtService {
 	}
 	
 	public String getSubject(String token) {
-		return JWT.require(Algorithm.HMAC256(key))
-				.withIssuer("Auth")
-				.build().verify(token).getSubject();
+		try {
+			return JWT.require(Algorithm.HMAC256(key))
+					.withIssuer("Auth")
+					.build().verify(token).getSubject();
+		} catch (TokenExpiredException e) {
+			throw new JwtTokenExpiredException("O token expirou");
+		}
 	}
 	/*
 	public String getToken(User user) {
