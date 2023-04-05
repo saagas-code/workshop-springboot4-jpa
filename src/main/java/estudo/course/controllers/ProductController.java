@@ -20,6 +20,7 @@ import estudo.course.DTO.ProductDTO;
 import estudo.course.entities.Product;
 import estudo.course.services.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 
 @RestController
@@ -46,6 +47,7 @@ public class ProductController {
 	}
 	
 	@PostMapping()
+	@RolesAllowed("ROLE_ADMIN")
 	@Operation(summary = "Create one Product")
 	public ResponseEntity<Product> create(@Valid @RequestBody ProductDTO obj) {
 
@@ -56,6 +58,7 @@ public class ProductController {
 	}
 	
 	@PutMapping(value = "{id}")
+	@RolesAllowed("ROLE_ADMIN")
 	@Operation(summary = "Update one Product")
 	public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody ProductDTO obj) {
 		
@@ -64,6 +67,7 @@ public class ProductController {
 	}
 	
 	@DeleteMapping(value = "/{id}")
+	@RolesAllowed("ROLE_ADMIN")
 	@Operation(summary = "Delete one Product by ID")
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 		productService.delete(id);

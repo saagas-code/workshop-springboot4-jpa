@@ -48,7 +48,11 @@ public class SecurityConfig {
 				.authorizeHttpRequests()
 				.requestMatchers(HttpMethod.POST, "/users/auth").permitAll()
 				.requestMatchers(HttpMethod.POST, "/users/register").permitAll()
-				.requestMatchers(HttpMethod.GET, "/users").hasAnyAuthority("ADMIN")
+				
+				.requestMatchers(HttpMethod.GET, "/products/**").permitAll()
+				.requestMatchers(HttpMethod.GET, "/categories/**").permitAll()
+				
+				.requestMatchers(HttpMethod.GET, "/orders/**").permitAll()
 				
 				
 				.anyRequest().authenticated()
