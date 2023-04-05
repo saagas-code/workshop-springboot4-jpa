@@ -19,12 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import estudo.course.DTO.CredentialsDTO;
+import estudo.course.DTO.TokenDTO;
 import estudo.course.DTO.UserDTO;
 import estudo.course.entities.User;
 import estudo.course.security.JwtService;
 import estudo.course.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.security.RolesAllowed;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @RestController
@@ -81,20 +83,9 @@ public class UserController {
 		return ResponseEntity.created(uri).body(user);
 	}
 	
-	//@PostMapping("/auth")
-	//public ResponseEntity<TokenDTO> authenticate(@Valid @RequestBody CredentialsDTO credentials) {
-	//			
-	//	User user = userService.authenticate(credentials);
-	//	
-	//	String token = jwtService.getToken(user);
-	//	TokenDTO tokenData = new TokenDTO(user.getEmail(), token);
-	//	return ResponseEntity.ok().body(tokenData);
-	//		
-	//	
-	//}
 	
 	@PostMapping("/auth")
-	public String authenticate(@Valid @RequestBody CredentialsDTO credentials) {
+	public TokenDTO authenticate(@Valid @RequestBody CredentialsDTO credentials) {
 				
 		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
 				credentials.getEmail(), 
@@ -104,8 +95,9 @@ public class UserController {
 				.authenticate(usernamePasswordAuthenticationToken);
 		
 		var user = (User)authenticate.getPrincipal();
-
-		return jwtService.getToken(user);
+		String token = jwtService.getToken(user);
+		
+		return new TokenDTO(credentials.getEmail(), token);
 		
 	}
 	

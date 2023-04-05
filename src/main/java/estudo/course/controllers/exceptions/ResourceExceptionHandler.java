@@ -11,6 +11,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.reactive.result.method.annotation.ResponseEntityExceptionHandler;
 
 import estudo.course.services.exceptions.DatabaseException;
 import estudo.course.services.exceptions.IntegrityViolationException;
@@ -20,7 +21,7 @@ import estudo.course.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
-public class ResourceExceptionHandler {
+public class ResourceExceptionHandler extends ResponseEntityExceptionHandler  {
 	
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<StandardError> resourceNotFound(ResourceNotFoundException e, HttpServletRequest request) {
@@ -86,16 +87,16 @@ public class ResourceExceptionHandler {
 		return ResponseEntity.status(status).body(err);
 
 	}
-	
+
 	@ExceptionHandler(JwtTokenExpiredException.class)
-	public ResponseEntity<StandardError> handleTokenExpiredException(JwtTokenExpiredException ex, HttpServletRequest request) {
+	public ResponseEntity<StandardError> handleJwtTokenExpiredException(JwtTokenExpiredException ex) {
 		String error = "Token Invalid";
-		HttpStatus status = HttpStatus.FORBIDDEN;
+		HttpStatus status = HttpStatus.UNAUTHORIZED;
 		String message = ex.getMessage();
-
-		StandardError err = new StandardError(Instant.now(), status.value(), error, message, request.getRequestURI());
+		
+		StandardError err = new StandardError(Instant.now(), status.value(), error, message);
 		return ResponseEntity.status(status).body(err);
-
+		
 	}
 	
 

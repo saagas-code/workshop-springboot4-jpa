@@ -29,6 +29,9 @@ public class SecurityConfig {
 	@Autowired
 	private FilterToken filter;
 	
+	@Autowired
+	private JwtAuthenticationEntryPoint entryPoint;
+	
 	@Bean
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -37,8 +40,10 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain configure(HttpSecurity http) throws Exception {
 
-		return http.csrf().disable()
+		return http.csrf().disable().cors().disable()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+					.and()
+				.exceptionHandling().authenticationEntryPoint(entryPoint)
 					.and()
 				.authorizeHttpRequests()
 				.requestMatchers(HttpMethod.POST, "/users/auth").permitAll()
