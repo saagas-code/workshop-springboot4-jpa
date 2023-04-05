@@ -27,13 +27,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		estudo.course.entities.User user = repository.findByEmail(username)
 			.orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 		
-		//String[] roles = user.isAdmin() ? new String[] {"ADMIN", "USER"} : new String[] {"USER"};
+		String[] roles = user.getName().equals("admin") ? new String[] {"ADMIN", "USER"} : new String[] {"USER"};
 		
 		return User
 				.builder()
 				.username(user.getEmail())
-				.password(this.passwordEncoder().encode(user.getPassword()))
-				.roles("USER")
+				.password(user.getPassword())
+				.roles(roles)
 				.build();
 				
 	}

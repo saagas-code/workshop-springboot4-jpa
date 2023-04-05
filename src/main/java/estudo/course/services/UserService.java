@@ -26,6 +26,7 @@ public class UserService {
 	@Autowired
 	private UserRepository repository;
 	
+	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
 	public List<User> findAll() {
