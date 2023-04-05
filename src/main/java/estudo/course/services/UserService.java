@@ -3,6 +3,7 @@ package estudo.course.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import estudo.course.DTO.CredentialsDTO;
+import estudo.course.DTO.UpdateUserDTO;
 import estudo.course.DTO.UserDTO;
 import estudo.course.entities.User;
 import estudo.course.repositories.UserRepository;
@@ -60,24 +62,29 @@ public class UserService implements UserDetailsService {
 		}
 	}
 	
-	public User update(Long id, UserDTO obj) {
-		
-		User user = modelMapper.map(obj, User.class);
-		
+	public User update(Long id, UpdateUserDTO obj) {
+
 		try {
-			User entity = repository.getReferenceById(id);
-			updateData(entity, user);
-			return repository.save(entity);
+			User user = repository.findById(id)
+					.orElseThrow(() -> new ResourceNotFoundException("User", id));
+			
+			ModelMapper modelMapper = new ModelMapper();
+			UpdateUserDTO userDTO = modelMapper.map(user, UpdateUserDTO.class);
+			
+			userDTO.setEmail(obj.getEmail());
+			userDTO.setName(obj.getName());
+			userDTO.setPhone(obj.getPhone());
+			
+			modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
+			modelMapper.map(userDTO, user);
+			
+			return repository.save(user);
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException("User", id);
 		}
 		
-	}
-
-	private void updateData(User entity, User obj) {
-		entity.setName(obj.getName());
-		entity.setEmail(obj.getEmail());
-		entity.setPhone(obj.getPhone());
+		
+		
 	}
 	
 	public void delete(Long id) {

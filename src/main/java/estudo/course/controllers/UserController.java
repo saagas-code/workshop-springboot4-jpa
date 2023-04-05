@@ -21,6 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import estudo.course.DTO.CredentialsDTO;
 import estudo.course.DTO.TokenDTO;
+import estudo.course.DTO.UpdateUserDTO;
 import estudo.course.DTO.UserDTO;
 import estudo.course.entities.User;
 import estudo.course.security.JwtService;
@@ -62,7 +63,7 @@ public class UserController {
 	@PutMapping(value = "/{id}")
 	@PreAuthorize("#id == authentication.principal.id or hasRole('ROLE_ADMIN')")
 	@Operation(summary = "Update one User")
-	public ResponseEntity<User> update(@PathVariable Long id, @RequestBody UserDTO obj) {
+	public ResponseEntity<User> update(@PathVariable Long id, @RequestBody UpdateUserDTO obj) {
 		User user = userService.update(id,  obj);
 		return ResponseEntity.ok().body(user);
 	}
