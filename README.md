@@ -1,7 +1,9 @@
 <h1 align="center">Delivery API - Spring Boot (Em desenvolvimento)</h1>
 
 Projeto realizado durante o curso da Udemy do professor
-[Nélio Alves](https://www.udemy.com/user/nelio-alves/). O projeto construído é uma aplicação back-end em Java com o framework Spring Boot, que fornece rotas de usuário, ordem e pedidos para um sistema de gerenciamento de pedidos online. A arquitetura da aplicação é baseada em RESTful APIs, o que permite que ela seja facilmente integrada com outras plataformas e serviços.
+[Nélio Alves](https://www.udemy.com/user/nelio-alves/). O projeto construído é uma aplicação back-end em Java com o framework Spring Boot, que fornece rotas de usuário, ordem e pedidos para um sistema de gerenciamento de pedidos online.
+
+O projeto contém três entidades principais: Cliente, Pedido e Produto e Categorias que estão relacionadas entre si em um modelo de banco de dados simples. A aplicação oferece um conjunto de endpoints RESTful para manipular essas entidades, permitindo que os usuários da API façam operações CRUD básicas (create, read, update e delete).
 
 <p align="center">
   <a href="https://skillicons.dev">
@@ -14,12 +16,21 @@ Projeto realizado durante o curso da Udemy do professor
 <div align="center">
 	<table border="1">
 	<tr>
-	<td>Java</td>
-	<td>Spring-Boot</td>
-	<td>JPA</td>
-	<td>Hibernate</td>
-	<td>Maven</td>
-	<td>Insomnia</td>
+    <td>Java</td>
+    <td>Spring-Boot</td>
+    <td>Spring-Data</td>
+    <td>JPA</td>
+    <td>Hibernate</td>
+    
+    
+  </tr>
+  <tr>
+    <td>Maven</td>
+    <td>Insomnia</td>
+    <td>Spring-Security</td>
+    <td>Token JWT</td>
+    <td>Cript de Senha</td>
+
   </tr>
   </table>
 </div>

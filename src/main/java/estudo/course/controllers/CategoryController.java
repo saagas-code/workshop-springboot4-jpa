@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import estudo.course.DTO.CategoryDTO;
 import estudo.course.entities.Category;
 import estudo.course.services.CategoryService;
-import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 
@@ -28,7 +27,6 @@ public class CategoryController {
 	private CategoryService categoryService;
 	
 	@GetMapping
-	@Operation(summary = "Get a list of all Categories")
 	public ResponseEntity<List<Category>> findAll(@RequestParam(required = false) String name) {
 					
 		List<Category> list = categoryService.findAll();
@@ -36,7 +34,6 @@ public class CategoryController {
 	}
 	
 	@GetMapping(value = "/{id}")
-	@Operation(summary = "Get one Category by ID")
 	public ResponseEntity<Category> findById(@PathVariable Long id) {
 		Category obj = categoryService.findById(id);
 		return ResponseEntity.ok().body(obj);
@@ -44,7 +41,6 @@ public class CategoryController {
 	
 	@PostMapping
 	@RolesAllowed("ROLE_ADMIN")
-	@Operation(summary = "Create one Category")
 	public ResponseEntity<Category> create(@Valid @RequestBody CategoryDTO obj) {	
 		Category category = categoryService.create(obj);
 		return ResponseEntity.ok().body(category);
@@ -52,7 +48,6 @@ public class CategoryController {
 	
 	@DeleteMapping(value = "/{id}")
 	@RolesAllowed("ROLE_ADMIN")
-	@Operation(summary = "Delete one Category")
 	public ResponseEntity<?> delete(@PathVariable Long id) {	
 		categoryService.delete(id);
 		return ResponseEntity.noContent().build();

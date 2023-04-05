@@ -26,7 +26,6 @@ import estudo.course.DTO.UserDTO;
 import estudo.course.entities.User;
 import estudo.course.security.JwtService;
 import estudo.course.services.UserService;
-import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 
@@ -44,7 +43,6 @@ public class UserController {
 	private AuthenticationManager authenticationManager;
 	
 	@GetMapping
-	@Operation(summary = "Get all Users", description = "Return a list of users")
 	@RolesAllowed("ROLE_ADMIN")
 	public ResponseEntity<List<User>> findAll() {
 		List<User> list = userService.findAll();
@@ -53,7 +51,6 @@ public class UserController {
 	}
 	
 	@GetMapping(value = "/{id}")
-	@Operation(summary = "Get one user by ID")
 	@RolesAllowed("ROLE_USER")
 	public ResponseEntity<User> findById(@PathVariable Long id) {
 		User obj = userService.findById(id);
@@ -62,14 +59,12 @@ public class UserController {
 	
 	@PutMapping(value = "/{id}")
 	@PreAuthorize("#id == authentication.principal.id or hasRole('ROLE_ADMIN')")
-	@Operation(summary = "Update one User")
 	public ResponseEntity<User> update(@PathVariable Long id, @RequestBody UpdateUserDTO obj) {
 		User user = userService.update(id,  obj);
 		return ResponseEntity.ok().body(user);
 	}
 	
 	@DeleteMapping(value = "/{id}")
-	@Operation(summary = "Delete one user by ID")
 	@RolesAllowed("ROLE_ADMIN")
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 
@@ -79,7 +74,6 @@ public class UserController {
 	}
 	
 	@PostMapping("/register")
-	@Operation(summary = "Create one User")
 	public ResponseEntity<User> create(@Valid @RequestBody UserDTO obj) {
 		User user = userService.insert(obj);
 		

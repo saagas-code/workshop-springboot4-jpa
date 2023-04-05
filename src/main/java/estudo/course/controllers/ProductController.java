@@ -19,7 +19,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import estudo.course.DTO.ProductDTO;
 import estudo.course.entities.Product;
 import estudo.course.services.ProductService;
-import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 
@@ -31,7 +30,6 @@ public class ProductController {
 	private ProductService productService;
 	
 	@GetMapping
-	@Operation(summary = "Get a list of all Products")
 	public ResponseEntity<List<Product>> findAll(@RequestParam(required = false) String name, @RequestParam(required = false) Long categoryId) {
 		
 		List<Product> list = productService.findByNameAndCategory(name, categoryId);
@@ -39,7 +37,6 @@ public class ProductController {
 	}
 	
 	@GetMapping(value = "/{id}")
-	@Operation(summary = "Get one Product by ID")
 	public ResponseEntity<Product> findById(@PathVariable Long id) {
 		
 		Product obj = productService.findById(id);
@@ -48,7 +45,6 @@ public class ProductController {
 	
 	@PostMapping()
 	@RolesAllowed("ROLE_ADMIN")
-	@Operation(summary = "Create one Product")
 	public ResponseEntity<Product> create(@Valid @RequestBody ProductDTO obj) {
 
 		Product product = productService.create(obj);
@@ -59,7 +55,6 @@ public class ProductController {
 	
 	@PutMapping(value = "{id}")
 	@RolesAllowed("ROLE_ADMIN")
-	@Operation(summary = "Update one Product")
 	public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody ProductDTO obj) {
 		
 		Product product = productService.update(id, obj);
@@ -68,7 +63,6 @@ public class ProductController {
 	
 	@DeleteMapping(value = "/{id}")
 	@RolesAllowed("ROLE_ADMIN")
-	@Operation(summary = "Delete one Product by ID")
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 		productService.delete(id);
 		return ResponseEntity.noContent().build();
