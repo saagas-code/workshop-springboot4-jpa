@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,7 +27,6 @@ import estudo.course.security.JwtService;
 import estudo.course.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.security.RolesAllowed;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @RestController
@@ -53,12 +53,14 @@ public class UserController {
 	
 	@GetMapping(value = "/{id}")
 	@Operation(summary = "Get one user by ID")
+	@RolesAllowed("ROLE_USER")
 	public ResponseEntity<User> findById(@PathVariable Long id) {
 		User obj = userService.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 	
 	@PutMapping(value = "/{id}")
+	@PreAuthorize("#id == authentication.principal.id or hasRole('ROLE_ADMIN')")
 	@Operation(summary = "Update one User")
 	public ResponseEntity<User> update(@PathVariable Long id, @RequestBody UserDTO obj) {
 		User user = userService.update(id,  obj);
@@ -67,6 +69,7 @@ public class UserController {
 	
 	@DeleteMapping(value = "/{id}")
 	@Operation(summary = "Delete one user by ID")
+	@RolesAllowed("ROLE_ADMIN")
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 
 		userService.delete(id);

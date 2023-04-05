@@ -27,7 +27,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 		response.setContentType("application/json");
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		
-		ErrorResponse errorResponse = new ErrorResponse("Unauthorized", "Token Invalido/Inexistente");
+		ErrorResponse errorResponse = new ErrorResponse(String.valueOf(response.getStatus()), "Unauthorized");
 		String json = new ObjectMapper().writeValueAsString(errorResponse);
 		
 		response.getWriter().write(json);

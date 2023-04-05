@@ -109,6 +109,13 @@ public class UserService implements UserDetailsService {
 
 	}
 	
+	@Override
+	public UserDetails loadUserByUsername(String email) {
+
+		return repository.findByEmail(email)
+				.orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+	}
+	
 	/*
 	@Override
 	public UserDetails loadUserByUsername(String email) {
@@ -128,11 +135,6 @@ public class UserService implements UserDetailsService {
 	}
 	*/
 	
-	@Override
-	public UserDetails loadUserByUsername(String email) {
-
-		return repository.findByEmail(email)
-				.orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
-	}
+	
 	
 }

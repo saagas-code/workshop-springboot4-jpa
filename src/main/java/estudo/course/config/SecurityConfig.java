@@ -23,7 +23,7 @@ import estudo.course.security.FilterToken;
  */
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(jsr250Enabled = false)
+@EnableMethodSecurity(prePostEnabled = true, jsr250Enabled = false)
 public class SecurityConfig {
 	
 	@Autowired
